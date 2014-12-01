@@ -22,7 +22,6 @@
 
 ### sat6-key-injection
 - On each of the nodes, it injects (hardcoded public key) into the **authorized_keys** file, and restarts ssh
-
 - *Requires razor*
 - *Needs work. In its current state, it can only be executed manually*
 
