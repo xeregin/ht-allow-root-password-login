@@ -8,6 +8,7 @@
 ### iad-key-injection
 - Creates a lab specific script using the **iad-add-ssh-key** template
 - Executes the generated script on each of the devices listed in the **devices** file
+- *Device file must contain Core Device IDs*
 
 ### iad-mod-sshd-devices
 - Executes the **sshd-allow-root-password-login** script on each of the devices listed in the **devices** file
