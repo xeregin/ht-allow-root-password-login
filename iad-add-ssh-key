@@ -1,0 +1,3 @@
+pub_key=""
+mkdir ~/.ssh
+echo $pub_key >> ~/.ssh/authorized_keys

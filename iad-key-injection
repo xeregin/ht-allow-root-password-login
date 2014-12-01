@@ -1,0 +1,26 @@
+print_expected_format() {
+    echo "Expected format:"
+    echo "$0 iad lab01"
+}
+
+# IAD Lab 01
+if [[ $1 == "iad" && $2 == "lab01" ]]; then
+    deployment_node="569037"
+# IAD Lab 02
+elif [[ $1 == "iad" && $2 == "lab02" ]]; then
+    deployment_node="578078"
+# Invalid Parameters
+else
+    print_expected_format
+    exit
+fi
+
+pubkey=$(echo $(ht $deployment_node -s get-public-key --sudo-make-me-a-sandwich) | sed 's/.*ssh-rsa/ssh-rsa/')
+
+cat iad-add-ssh-key | sed "s:^pub_key=.*:pub_key=\"$pubkey\":" > iad-$2-add-ssh-key
+
+for i in `cat devices | awk '{print $1}'`; do
+    ht $i -s iad-$2-add-ssh-key --sudo-make-me-a-sandwich
+done
+
+rm iad-$2-add-ssh-key
