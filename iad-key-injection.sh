@@ -15,12 +15,12 @@ else
     exit
 fi
 
-pubkey=$(echo $(ht $deployment_node -s get-public-key --sudo-make-me-a-sandwich) | sed 's/.*ssh-rsa/ssh-rsa/')
+pubkey=$(echo $(ht $deployment_node -s get-public-key.sh --sudo-make-me-a-sandwich) | sed 's/.*ssh-rsa/ssh-rsa/')
 
-cat iad-add-ssh-key | sed "s:^pub_key=.*:pub_key=\"$pubkey\":" > iad-$2-add-ssh-key
+cat add-ssh-key.sh.template | sed "s:^pub_key=.*:pub_key=\"$pubkey\":" > $1-$2-add-ssh-key.sh
 
 for i in `cat devices | awk '{print $1}'`; do
-    ht $i -s iad-$2-add-ssh-key --sudo-make-me-a-sandwich
+    ht $i -s $1-$2-add-ssh-key.sh --sudo-make-me-a-sandwich
 done
 
-rm iad-$2-add-ssh-key
+rm $1-$2-add-ssh-key.sh
