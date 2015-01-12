@@ -1,17 +1,21 @@
 print_expected_format() {
     echo "Expected format:"
-    echo "$0 iad lab01"
+    echo "$0 iad qe1"
 }
 
-# IAD Lab 01
-if [[ $1 == "iad" && $2 == "lab01" ]]; then
-    deployment_node="569037"
-# IAD Lab 02
-elif [[ $1 == "iad" && $2 == "lab02" ]]; then
-    deployment_node="578078"
-# Invalid Parameters
-else
+print_invalid_options() {
+    echo "Unable to find device with given datacenter and qex lab params..."
+}
+
+if [[ $1 == "" || $2 == "" ]]; then
     print_expected_format
+    exit
+else
+    cat devices_all | grep Device | awk '{print $2" "$3}' > devices;
+    deployment_node=$(cat devices | grep $1 | grep $2 | grep infra01 | awk '{print $1}')
+fi
+if [[ $deployment_node = "" ]]; then
+    print_invalid_options
     exit
 fi
 
